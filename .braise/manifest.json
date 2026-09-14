@@ -1,0 +1,62 @@
+{
+  "name": "AC Segmentation",
+  "github": "gamorosino/app-ac-segmentation",
+  "github_branch": "main",
+  "desc": "Automated axonal segmentation of volumetric light-microscopy Zarr data, using the Allen Institute's ac_segmentation RSUNet model (segment_array.py) with the model's bundled pretrained checkpoint.",
+  "config": {
+    "input_path": {
+      "type": "input",
+      "file_id": "zarr",
+      "input_id": "input"
+    },
+    "mask_path": {
+      "type": "input",
+      "file_id": "zarr",
+      "input_id": "mask"
+    },
+    "dsfactor": {
+      "id": "dsfactor",
+      "type": "number",
+      "placeholder": 1,
+      "advanced": true,
+      "desc": "Mask downsample factor (segment_array.py --dsfactor).",
+      "default": 1
+    },
+    "filter_max_intensity": {
+      "id": "filter_max_intensity",
+      "type": "number",
+      "placeholder": 30000,
+      "advanced": true,
+      "desc": "Maximum intensity threshold used for contrast preprocessing before segmentation (segment_array.py --filter_max_intensity).",
+      "default": 30000
+    }
+  },
+  "inputs": [
+    {
+      "id": "input",
+      "datatype": "neuro/ome-zarr",
+      "datatype_tags": [],
+      "optional": false,
+      "multi": false,
+      "advanced": false
+    },
+    {
+      "id": "mask",
+      "datatype": "neuro/ome-zarr",
+      "datatype_tags": [],
+      "optional": true,
+      "multi": false,
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "output",
+      "desc": "Segmented volume (uint8-labeled OME-Zarr) produced by the RSUNet model.",
+      "datatype": "neuro/ome-zarr",
+      "datatype_tags": [],
+      "archive": true
+    }
+  ],
+  "invoke": "bash -c \"source activate ac && python3 /ac_segmentation/src/ac_segmentation/methods/segment_array.py --input_path {input_path} --weights_file /ac_segmentation/checkpoints/ac_set2_rg_1e-08_run7/best.ckpt --output_path output/data.ome.zarr --mask_path {mask_path} --dsfactor {dsfactor} --filter_max_intensity {filter_max_intensity}\""
+}

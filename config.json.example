@@ -1,0 +1,6 @@
+{
+  "input_path": "input/data.ome.zarr",
+  "mask_path": "None",
+  "dsfactor": 1,
+  "filter_max_intensity": 30000
+}
