@@ -17,12 +17,14 @@ import json
 import shlex
 import subprocess
 import sys
+import os
 
 with open("config.json") as f:
     config = json.load(f)
 
 config.setdefault("output_path", "output/data.ome.zarr")
 config["mask_path"] = config.get("mask_path") or "None"
+config["input_path"] = os.path.join(config["input_path"], "0")
 
 command = (
     'bash -c "source activate ac && '
