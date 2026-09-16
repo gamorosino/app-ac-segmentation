@@ -34,7 +34,7 @@ command = (
     "--output_path {output_path} "
     "--mask_path {mask_path} "
     "--dsfactor {dsfactor} "
-    '--filter_max_intensity {filter_max_intensity}"'
+    "--rescale_perc '[96,97]'\""
 ).format(**config)
 print(f"+ {command}")
 result = subprocess.run(shlex.split(command))
